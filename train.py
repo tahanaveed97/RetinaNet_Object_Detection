@@ -18,6 +18,7 @@ def main():
     parser.add_argument('--csv_val')
     parser.add_argument('--depth', type=int, default=50)
     parser.add_argument('--epochs', type=int, default=100)
+    parser.add_argument('--batch_size',type=int, default=2)
     args = parser.parse_args()
 
     if args.dataset == 'coco':
@@ -29,9 +30,9 @@ def main():
     else:
         raise ValueError('Dataset type not understood, it must be csv or coco.')
 
-    sampler = AspectRatioBasedSampler(dataset_train, batch_size=2, drop_last=False)
+    sampler = AspectRatioBasedSampler(dataset_train, batch_size=args.batch_size, drop_last=False)
     dataloader_train = DataLoader(dataset_train, num_workers=3, collate_fn=collater, batch_sampler=sampler)
-    dataloader_val = DataLoader(dataset_val, num_workers=3, collate_fn=collater, batch_sampler=AspectRatioBasedSampler(dataset_val, batch_size=2, drop_last=False)) if dataset_val else None
+    dataloader_val = DataLoader(dataset_val, num_workers=3, collate_fn=collater, batch_sampler=AspectRatioBasedSampler(dataset_val, batch_size=args.batch_size, drop_last=False)) if dataset_val else None
 
     retinanet = model.resnet50(num_classes=dataset_train.num_classes(), pretrained=True) if args.depth == 50 else None  # Add conditions for other depths as needed
 
