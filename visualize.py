@@ -18,7 +18,7 @@ from retinanet.dataloader import CocoDataset, CSVDataset, collater, Resizer, Asp
 	UnNormalizer, Normalizer
 
 
-assert torch.__version__.split('.')[0] == '1'
+# assert torch.__version__.split('.')[0] == '1'
 
 print('CUDA available: {}'.format(torch.cuda.is_available()))
 
